@@ -144,6 +144,7 @@ class ExpInformer(Exp_Basic):
         criterion = nn.MSELoss()
         return criterion
 
+    # noinspection PyMethodOverriding
     def vali(self, vali_data, vali_loader, criterion):
         """
         评估：验证集和测试集在该方法中进行评估
@@ -160,6 +161,7 @@ class ExpInformer(Exp_Basic):
         self.model.train()
         return total_loss
 
+    # noinspection PyMethodOverriding
     def train(self, setting):
         # 获取数据
         train_data, train_loader = self._get_data(flag='train')

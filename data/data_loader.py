@@ -1,15 +1,15 @@
 import os
+import warnings
+
 import numpy as np
 import pandas as pd
+from torch.utils.data import Dataset
 
-import torch
-from torch.utils.data import Dataset, DataLoader
+from utils.timefeatures import time_features
+from utils.tools import StandardScaler
+
 # from sklearn.preprocessing import StandardScaler
 
-from utils.tools import StandardScaler
-from utils.timefeatures import time_features
-
-import warnings
 
 warnings.filterwarnings('ignore')
 
@@ -46,8 +46,7 @@ class Dataset_ETT_hour(Dataset):
 
     def __read_data__(self):
         self.scaler = StandardScaler()
-        df_raw = pd.read_csv(os.path.join(self.root_path,
-                                          self.data_path))
+        df_raw = pd.read_csv(os.path.join(self.root_path, self.data_path))
 
         border1s = [0, 12 * 30 * 24 - self.seq_len, 12 * 30 * 24 + 4 * 30 * 24 - self.seq_len]
         border2s = [12 * 30 * 24, 12 * 30 * 24 + 4 * 30 * 24, 12 * 30 * 24 + 8 * 30 * 24]
@@ -106,8 +105,7 @@ class Dataset_ETT_minute(Dataset):
                  features='S', data_path='ETTm1.csv',
                  target='OT', scale=True, inverse=False, timeenc=0, freq='t', cols=None):
         # size [seq_len, label_len, pred_len]
-        # info
-        if size == None:
+        if size is None:
             self.seq_len = 24 * 4 * 4
             self.label_len = 24 * 4
             self.pred_len = 24 * 4
@@ -230,8 +228,8 @@ class Dataset_Custom(Dataset):
             cols = self.cols.copy()
             cols.remove(self.target)
         else:
-            cols = list(df_raw.columns);
-            cols.remove(self.target);
+            cols = list(df_raw.columns)
+            cols.remove(self.target)
             cols.remove('date')
         df_raw = df_raw[['date'] + cols + [self.target]]
 
