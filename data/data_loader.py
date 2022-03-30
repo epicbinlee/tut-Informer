@@ -201,7 +201,7 @@ class Dataset_Custom(Dataset):
                  target='OT', scale=True, inverse=False, timeenc=0, freq='h', cols=None):
         # size [seq_len, label_len, pred_len]
         # info
-        if size == None:
+        if size is None:
             self.seq_len = 24 * 4 * 4
             self.label_len = 24 * 4
             self.pred_len = 24 * 4
