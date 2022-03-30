@@ -113,6 +113,7 @@ class ExpInformer(Exp_Basic):
             root_path=args.root_path,
             data_path=args.data_path,
             flag=flag,
+            # 定义seq长度、标签长度、预测长度
             size=[args.seq_len, args.label_len, args.pred_len],
             features=args.features,
             target=args.target,

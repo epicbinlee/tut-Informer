@@ -48,7 +48,10 @@ class Dataset_ETT_hour(Dataset):
         self.scaler = StandardScaler()
         df_raw = pd.read_csv(os.path.join(self.root_path, self.data_path))
 
+        # TODO why border?
+        # [0, 8544, 11424]
         border1s = [0, 12 * 30 * 24 - self.seq_len, 12 * 30 * 24 + 4 * 30 * 24 - self.seq_len]
+        # [8640, 11520, 14400]
         border2s = [12 * 30 * 24, 12 * 30 * 24 + 4 * 30 * 24, 12 * 30 * 24 + 8 * 30 * 24]
         border1 = border1s[self.set_type]
         border2 = border2s[self.set_type]
@@ -68,13 +71,19 @@ class Dataset_ETT_hour(Dataset):
 
         df_stamp = df_raw[['date']][border1:border2]
         df_stamp['date'] = pd.to_datetime(df_stamp.date)
+
+        # 时间特征编码方式：将1维时间按照指定的时间间隔转换成4维的时间特征 时间编码通用的工具类
+        # 参考AutoFormer/Informer/SfiNet/finance_transformer/
         data_stamp = time_features(df_stamp, timeenc=self.timeenc, freq=self.freq)
 
+        # 数据x
         self.data_x = data[border1:border2]
+        # 数据y
         if self.inverse:
             self.data_y = df_data.values[border1:border2]
         else:
             self.data_y = data[border1:border2]
+        # 时间戳
         self.data_stamp = data_stamp
 
     def __getitem__(self, index):
