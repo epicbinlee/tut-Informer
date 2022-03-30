@@ -203,7 +203,7 @@ class ExpInformer(Exp_Basic):
             # 3. 计算损失 loss = criterion(outputs, labels)
             # 4. 反向传播求梯度 loss.backward()
             # 5. 更新参数 model_optim.step()
-            for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(train_loader)):
+            for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(tqdm(train_loader, desc='batch progress')):
                 iter_count += 1
                 # 优化器梯度置0， loss对weight的倒数置0，训练不需要将两个Batch的梯度累乘
                 model_optim.zero_grad()
