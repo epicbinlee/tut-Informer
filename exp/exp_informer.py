@@ -40,7 +40,8 @@ class ExpInformer(Exp_Basic):
             # 选择模型
             e_layers = self.args.e_layers if self.args.model == 'informer' else self.args.s_layers
             # 读取参数加入到模型字典
-            model = model_dict[self.args.model](
+            informer_model = model_dict[self.args.model]
+            model = informer_model(
                 self.args.enc_in,
                 self.args.dec_in,
                 self.args.c_out,
